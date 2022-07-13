@@ -12,6 +12,37 @@
     {{!-- Theme assets - use the {asset} helper to reference styles & scripts,
     this will take care of caching and cache-busting automatically --}}
     <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.18.2/dist/tocbot.css" integrity="sha256-bbV4jV69YYtaqs+BZ6DwruQHggucV/8aukX6uHr/wEA=" crossorigin="anonymous">
+    <style>
+        .gh-toc {
+            margin-top: 4vmin; /* Aligns the TOC with the beginning of content */
+        }
+
+        @media (min-width: 1300px) {
+            .gh-toc {
+                position: sticky; /* On larger screens, TOC will stay in the same spot on the page */
+                top: 4vmin;
+                grid-column: wide-start / main-start; /* Place the TOC to the left of the content */
+           }
+        }
+
+        .gh-toc > .toc-list {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+        
+        li.toc-list-item > a {
+            text-decoration: none;
+        }
+
+        .gh-toc .is-active-link::before {
+            background-color: var(--ghost-accent-color); /* Defines TOC accent color based on Accent color set in Ghost Admin */
+        } 
+    </style>
 
     {{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings,
     it should always be the last tag before the closing head tag --}}
@@ -98,6 +129,20 @@ $(document).ready(function () {
     // FitVids - Makes video embeds responsive
     $(".gh-content").fitVids();
 });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/tocbot@4.18.2/dist/tocbot.min.js" integrity="sha256-yIpHnYq5HbJ1cn1UXcUoTHpzTAloyzD7uknqjJaaECg=" crossorigin="anonymous"></script>
+
+{{! Initialize Tocbot after you load the script }}
+<script>
+    tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.gh-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.gh-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3, h4',
+    });
 </script>
 
 {{!-- Ghost outputs required functional scripts with this tag - it should always be the last thing before the closing body tag --}}
